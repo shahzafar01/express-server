@@ -6,16 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Todo App With Server</h1>
+    <div class="heading"><h1>Todo App With Server</h1></div>
 
     <form onsubmit="postTodo(); return false">
         todo: <input id="todo" type="text" required>
        
         <button type="submit">Add</button>
     </form>
-    <h3 id="result">     </h3>
+    <div class="result">
+    <h3 id="result"> </h3>
+</div>
 
     <script>
         function postTodo() {
