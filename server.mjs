@@ -1,5 +1,10 @@
 import express from 'express';
 import cors from 'cors';
+import mongoose from 'mongoose';
+
+await mongoose.connect('mongodb+srv://Shahmir:password@cluster0.9b2tk3b.mongodb.net/?retryWrites=true&w=majority');
+
+
 
 const app = express()
 const port = process.env.PORT || 3000;
