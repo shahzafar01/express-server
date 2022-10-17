@@ -50,15 +50,78 @@ app.get('/todos', (req, res) => {
         }
     })
 });
+app.put('/todo/:id', async (req, res) => {
 
+  try {
+      let data = await todoModel
+          .findByIdAndUpdate(
+              req.params.id,
+              { text: req.body.text },
+              { new: true }
+          )
+          .exec();
+
+      console.log('updated: ', data);
+
+      res.send({
+          message: "todo is updated successfully",
+          data: data
+      })
+
+  } catch (error) {
+      res.status(500).send({
+          message: "server error"
+      })
+  }
+})
+
+
+app.delete('/todos', (req, res) => {
+
+  todoModel.deleteMany({}, (err, data) => {
+      if (!err) {
+          res.send({
+              message: "All Todo has been deleted successfully",
+          })
+      } else {
+          res.status(500).send({
+              message: "server error"
+          })
+      }
+  });
+})
+app.delete('/todo/:id', (req, res) => {
+
+  todoModel.deleteOne({ _id: req.params.id }, (err, deletedData) => {
+      console.log("deleted: ", deletedData);
+      if (!err) {
+
+          if (deletedData.deletedCount !== 0) {
+              res.send({
+                  message: "Todo has been deleted successfully",
+              })
+          } else {
+              res.send({
+                  message: "No todo found with this id: " + req.params.id,
+              })
+          }
+
+
+      } else {
+          res.status(500).send({
+              message: "server error"
+          })
+      }
+  });
+})
 app.listen(port, () => {
   console.log(`Server app listening on port ${port}`);
 });
-/////////////////////////////////////////////////////////////////////////////////////////////////
+
 let dbURI = 'mongodb+srv://Shahmir:01june2003mir@cluster0.9b2tk3b.mongodb.net/?retryWrites=true&w=majority'
 mongoose.connect(dbURI);
 
-////////////////mongodb connected disconnected events///////////////////////////////////////////////
+
 mongoose.connection.on("connected", function () {
   //connected
   console.log("Mongoose is connected");
